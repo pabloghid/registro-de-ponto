@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap">
+    <script type="text/javascript">
+    </script>
+  </head>
+  <body>
+    
+    <form method="POST" action="tela_cadastro.html" onsubmit="return EnviarDados();">
+      <div> 
+        <p id="teste" style="text-align: center;">Tela de Cadastro de Funcionários        
+        </p>
+        </div>
+      <table>
+        <tr>
+        <td>ID:</td>
+        <td><input type="text" name="id" id="id"></td>
+        </tr>
+        <tr>
+        <td>Código: </td>
+        <td><input type="int" name="codigo" id="codigo"></td>
+        </tr>
+        <tr>
+        <td>Idade: </td>
+        <td><input type="int" name="idade" id="idade"></td>
+        </tr>
+        <tr>
+        <td>Nome: </td>
+        <td><input type="text" name="nome" id="nome" placeholder="Ex: Guilherme Locatelli" style="text-align: left;"></td>
+        </tr>
+        <div class="selecao">
+        <tr>
+        <td>Sexo: </td>
+        <td>
+        <select name="sexo" id="sexo">
+          <option value="F">Feminino</option>
+          <option value="M">Masculino</option>
+         </td>    
+        </tr>
+        </div>
+        <tr>
+        <td>CPF: </td>
+        <td><input type="int" name="cpf" id="cpf" placeholder="Ex: 000.000.000-00" style="text-align: left;"></td>
+        </tr>
+        <tr>
+        <td>Cargo: </td>
+        <td><input type="text" name="cargo" id="cargo" placeholder="Ex: Assistente" style="text-align: left;"></td>
+        </tr>
+        <tr>
+        <td>Hora início pela manhã: </td>
+        <td><input type="int" name="hora_inicio_manha" id="hora_inicio_manha" placeholder="Ex: 07:30" style="text-align: left;"></td>
+        </tr>
+        <tr>
+        <td>Hora saída pela manhã: </td>
+        <td><input type="int" name="hora_saida_manha" id="hora_saida_manha" placeholder="Ex: 12:00" style="text-align: left;"></td>
+        </tr>
+        <tr>
+        <td>Hora início pela tarde: </td>
+        <td><input type="int" name="hora_inicio_tarde" id="hora_inicio_tarde" placeholder="Ex: 13:30" style="text-align: left;"></td>
+        </tr>
+        <tr>
+        <td>Hora saída pela tarde: </td>
+        <td><input type="int" name="hora_saida_tarde" id="hora_saida_tarde" placeholder="Ex: 17:30" style="text-align: left;"></td>
+        </tr>
+        </table>
+        </body>
+      </table>
+    <div>
+      <fieldset>
+        <legend><label>Dias de trabalho</label></legend>
+        <label><input type="checkbox"/>Domingo</label>
+        <label><input type="checkbox"/>Segunda-feira</label>
+        <label><input type="checkbox"/>Terça-feira</label>
+        <label><input type="checkbox"/>Quarta-feira</label>
+        <label><input type="checkbox"/>Quinta-feira</label>        
+        <label><input type="checkbox"/>Sexta-feira</label>
+        <label><input type="checkbox"/>Sábado</label>
+    </fieldset>
+    </div>
+        <div text-align: center;>
+        <button name="Botao_Enviar" type="submit" value="Enviar" class="Center">Enviar</button>
+        </div>
+    </table>
+    </form>
+
+    
+
+    <script>
+      function EnviarDados(){
+        var id = document.getElementById("id").value;
+        var codigo = document.getElementById("codigo").value;
+        var nome = document.getElementById("nome").value;        
+        var sexo = document.getElementById("sexo").value;
+        var idade = document.getElementById("idade").value;
+        var cpf = document.getElementById("cpf").value;
+        var cargo = document.getElementById("cargo").value;
+        var hora_inicio_manha = document.getElementById("hora_inicio_manha").value;
+        var hora_saida_manha = document.getElementById("hora_saida_manha").value;
+        var hora_inicio_tarde = document.getElementById("hora_inicio_tarde").value;
+        var hora_saida_tarde = document.getElementById("hora_saida_tarde").value;
+        
+        if (cpf.length < 14 ){
+          alert('CPF inválido')
+        }else if (idade<0){
+            alert('Idade inválida')
+          }else{
+                
+        alert('Cadastro realizado com sucesso');
+          }
+      }
+
+    </script>
+  </body>
+</html>

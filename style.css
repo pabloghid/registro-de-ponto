@@ -1,0 +1,142 @@
+:root {
+    --primary-color: #fd951f;
+    --bg-color: #130f0d;
+    --text-color: #f0f0f5;
+    --light-color: rgba(255, 255, 255, 0.04);
+}
+
+* {
+    margin: 5px;
+    padding: 0px;
+    box-sizing: content-box;
+}
+
+html {
+    font-family: "Roboto", sans-serif;
+    height: 100%;
+}
+
+body {
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: #130f0d;
+    color: #f0f0f5;
+}
+.label{
+background-color: aqua;
+
+}
+
+form {
+    background: rgba(255, 255, 255, 0.03);
+
+    width: 100%;
+    max-width: 500px;
+
+    margin: 32px auto ;
+    padding: 32px 64px;
+
+    display: flex;
+    flex-direction: column;
+    
+}
+
+form h2 {
+    margin-bottom: 32px;
+}
+
+div.input {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+input,
+button {
+    /* reset appeareance */
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+
+    /* box */
+    width: 95%;
+
+    padding: 10px 0;
+
+    border:1px solid #fd951f;
+    border-bottom: 1px solid var(rgba(255, 255, 255, 0.04));
+
+    background-color: transparent;
+
+    outline: none;
+
+    /* text */
+    color: var(--text-color);
+    font-size: 1em;
+
+}
+
+
+
+
+
+button {
+    margin-top: 16px;
+    text-align: center;
+    display: flex;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-color);
+
+}
+
+p{
+
+border-bottom: 0.8px solid #fd951f;
+font-size: large;
+}
+
+select{
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: transparent;
+    color: var(white);
+    border: 1px solid var(--primary-color);
+    font-size: inherit;
+    padding: 0 1em 0 0;
+    
+}
+
+
+.input span.error {
+    display: flex;
+    
+    padding: 0;
+
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+input[type="checkbox" i] {
+    background-color: initial;
+    cursor: default;
+    appearance: auto;
+    box-sizing: border-box;
+    position: relative;
+    height: 14px;
+    top: 21px;
+    left: 110px;
+    border-bottom: inherit;
+    border-color: 2px solid var(--primary-color);
+    
+}
+
+
+.input span.error.active {
+    border: 1px solid red;
+    padding: 0.4em;
+}
+
+
