@@ -9,27 +9,19 @@
   </head>
   <body>
     
-    <form method="POST" action="tela_cadastro.html" onsubmit="return EnviarDados();">
+    <form action="/confirmar" method="POST">
       <div> 
         <p id="teste" style="text-align: center;">Tela de Cadastro de Funcionários        
         </p>
         </div>
       <table>
         <tr>
-        <td>ID:</td>
-        <td><input type="text" name="id" id="id"></td>
-        </tr>
-        <tr>
-        <td>Código: </td>
-        <td><input type="int" name="codigo" id="codigo"></td>
+        <td>Nome: </td>
+        <td><input type="text" name="nome" id="nome" placeholder="Ex: Guilherme Locatelli" style="text-align: left;"></td>
         </tr>
         <tr>
         <td>Idade: </td>
         <td><input type="int" name="idade" id="idade"></td>
-        </tr>
-        <tr>
-        <td>Nome: </td>
-        <td><input type="text" name="nome" id="nome" placeholder="Ex: Guilherme Locatelli" style="text-align: left;"></td>
         </tr>
         <div class="selecao">
         <tr>
@@ -51,19 +43,19 @@
         </tr>
         <tr>
         <td>Hora início pela manhã: </td>
-        <td><input type="int" name="hora_inicio_manha" id="hora_inicio_manha" placeholder="Ex: 07:30" style="text-align: left;"></td>
+        <td><input type="time" name="hora_inicio_manha" id="hora_inicio_manha" placeholder="Ex: 07:30" style="text-align: left;"></td>
         </tr>
         <tr>
         <td>Hora saída pela manhã: </td>
-        <td><input type="int" name="hora_saida_manha" id="hora_saida_manha" placeholder="Ex: 12:00" style="text-align: left;"></td>
+        <td><input type="time" name="hora_saida_manha" id="hora_saida_manha" placeholder="Ex: 12:00" style="text-align: left;"></td>
         </tr>
         <tr>
         <td>Hora início pela tarde: </td>
-        <td><input type="int" name="hora_inicio_tarde" id="hora_inicio_tarde" placeholder="Ex: 13:30" style="text-align: left;"></td>
+        <td><input type="time" name="hora_inicio_tarde" id="hora_inicio_tarde" placeholder="Ex: 13:30" style="text-align: left;"></td>
         </tr>
         <tr>
         <td>Hora saída pela tarde: </td>
-        <td><input type="int" name="hora_saida_tarde" id="hora_saida_tarde" placeholder="Ex: 17:30" style="text-align: left;"></td>
+        <td><input type="time" name="hora_saida_tarde" id="hora_saida_tarde" placeholder="Ex: 17:30" style="text-align: left;"></td>
         </tr>
         </table>
         </body>
@@ -71,7 +63,7 @@
     <div>
       <fieldset>
         <legend><label>Dias de trabalho</label></legend>
-        <label><input type="checkbox"/>Domingo</label>
+        <label><input name="domingo" type="checkbox"/>Domingo</label>
         <label><input type="checkbox"/>Segunda-feira</label>
         <label><input type="checkbox"/>Terça-feira</label>
         <label><input type="checkbox"/>Quarta-feira</label>
@@ -90,7 +82,6 @@
 
     <script>
       function EnviarDados(){
-        var id = document.getElementById("id").value;
         var codigo = document.getElementById("codigo").value;
         var nome = document.getElementById("nome").value;        
         var sexo = document.getElementById("sexo").value;
@@ -106,9 +97,8 @@
           alert('CPF inválido')
         }else if (idade<0){
             alert('Idade inválida')
-          }else{
-                
-        alert('Cadastro realizado com sucesso');
+          }else{                
+          alert('Cadastro realizado com sucesso');
           }
       }
 
