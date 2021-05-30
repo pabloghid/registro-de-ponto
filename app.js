@@ -2,10 +2,14 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 const Sequelize = require('sequelize');
+const cadastros = require ("./models/cadastros");
+const mysql = require('mysql');
+const { json } = require("body-parser");
+
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-
+app.use('/src', express.static(__dirname + '/src'));
 //conexao bd sequelize
 
 const sequelize = new Sequelize('bd','viniteste','123456',{
@@ -18,10 +22,8 @@ sequelize.authenticate().then(function(){
 }).catch(function(err){
     console.log('Erro ao conectar com o Banco' + err);
 });
-//Conexão BD
 
-const mysql = require('mysql');
-const { json } = require("body-parser");
+//Conexão BD
 
 const connection = mysql.createConnection({
     host    : 'localhost',
@@ -40,39 +42,113 @@ connection.connect(function(err){
     console.log('connected as id ' +connection.threadId);
 });
 
-connection.query('SELECT * FROM bd_registro', function(err, rows, fields){
+connection.query('SELECT * FROM bd_registros', function(err, rows, fields){
     if(!err){
         console.log('Resultado: ', rows);
    }else{
        console.log('Erro na consulta');
    }
+})
 
-})
-/*
-connection.query("INSERT INTO bd_registro(nome, idade) VALUES('TESTE', '20')",function(err, result){
-    if (!err){
-        console.log('Usuario cadastrado com sucesso');
-    }else{
-        console.log('Erro ao cadastrar usuário');
-    }
-})
-*/
 ////// 'FIM' Conexao
+
+/*calculo*/
+
+//////////////////
+
 app.get("/", function(req, res){
     res.sendFile(__dirname + "/src/tela_cadastro.html");
 });
 
+app.get("/bate_ponto_entrada", function(req, res){
+    res.sendFile(__dirname + "/src/bate_ponto_entrada.html")
+})
+
+app.get("/bate_ponto_saida", function(req, res){
+    res.sendFile(__dirname + "/src/bate_ponto_saida.html")
+})
+
 app.get("/tela_cadastro",function(req, res){
-    res.sendfile(__dirname + "/src/tela_cadastro.html");
+    res.sendFile(__dirname + "/src/tela_cadastro.html");
 })
 
 app.post("/confirmar", function(req, res){
+   
+    if(req.body.domingo == "on"){
+        req.body.domingo = "Sim";
+    }
+    else{
+        req.body.domingo = "Não"
+    }
+    if(req.body.segunda == "on"){
+        req.body.segunda = "Sim";
+    }
+    else{
+        req.body.segunda = "Não"
+    }
+    if(req.body.terca == "on"){
+        req.body.terca = "Sim";
+    }
+    else{
+        req.body.terca = "Não"
+    }
+    if(req.body.quarta == "on"){
+        req.body.quarta = "Sim";
+    }
+    else{
+        req.body.quarta = "Não"
+    }
+    if(req.body.quinta == "on"){
+        req.body.quinta = "Sim";
+    }
+    else{
+        req.body.quinta = "Não"
+    }
+    if(req.body.sexta == "on"){
+        req.body.sexta = "Sim";
+    }
+    else{
+        req.body.sexta = "Não"
+    }
+    if(req.body.sabado == "on"){
+        req.body.sabado = "Sim";
+    }
+    else{
+        req.body.sabado = "Não"
+    }
+    res.send("Nome: " + req.body.nome + "<br>Idade: " + req.body.idade + "<br>" + "<br>Sexo: " + req.body.sexo + "<br>" + "<br>CPF: "
+     + req.body.cpf+ "<br>" +"<br>Cargo: " + req.body.cargo+ "<br>"+"<br>Hora início pela manhã: " 
+    + req.body.hora_inicio_manha+ "<br>"+"<br>Hora saída pela manhã: " + req.body.hora_saida_manha+ 
+    "<br>" +"<br>Hora início pela tarde: " + req.body.hora_inicio_tarde+ "<br>"
+    +"<br>Hora saída pela tarde: " + req.body.hora_saida_tarde+ "<br>" + 
+    "<br> Dias da semana: <br> Domingo: " + req.body.domingo +"<br>" + "Segunda: " + req.body.segunda +"<br>" + "Terça: " + req.body.terca 
+    + "<br>Quarta: " + req.body.quarta
+    + "<br>Quinta: " + req.body.quinta
+    + "<br>Sexta: " + req.body.sexta
+    + "<br>Sábado: " + req.body.sabado);
+    
     res.sendFile(__dirname + "/src/confirmar.html");
-    res.send("Nome: " + req.body.nome + "<br>Idade: " + req.body.idade + "<br>" + "<br>Sexo: " + req.body.sexo + "<br>" + "<br>CPF: " + req.body.cpf+ "<br>" +"<br>Cargo: " + req.body.cargo+ "<br>"+"<br>Hora início pela manhã: " 
-    + req.body.hora_inicio_manha+ "<br>"+"<br>Hora saída pela manhã: " + req.body.hora_saida_manha+ "<br>" +"<br>Hora início pela tarde: " + req.body.hora_inicio_tarde+ "<br>"
-    +"<br>Hora saída pela tarde: " + req.body.hora_saida_tarde+ "<br>" + "<br> Dias da semana: " +req.body.domingo +"<br>");
-});
-
+    
+    // SE PARAR DE FUNCIONAR É PQ BOTOU CPF ERRADO
+    cadastros.create({
+       nome: req.body.nome,
+       idade: req.body.idade,
+       sexo: req.body.sexo,
+       cpf:req.body.cpf,
+       cargo: req.body.cargo,
+       hora_inicio_manha: req.body.hora_inicio_manha,
+       hora_saida_manha: req.body.hora_saida_manha,
+       hora_inicio_tarde: req.body.hora_inicio_tarde,
+       hora_saida_tarde: req.body.hora_saida_tarde,
+       domingo: req.body.domingo,
+       segunda: req.body.segunda
+    
+   }).then(function(){
+       res.send("Cadastrado com sucesso")
+   }).catch(function(erro){
+       res.send("Erro ao cadastrar usuário" + erro)
+   })
+})
 
 //localhost:8080
 app.listen(8080);

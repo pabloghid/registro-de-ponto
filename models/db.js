@@ -1,4 +1,4 @@
-/*const Sequelize = require("sequelize")
+const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize('bd', 'viniteste', '123456', {
     hoswt:'localhost',
@@ -9,4 +9,4 @@ const sequelize = new Sequelize('bd', 'viniteste', '123456', {
 module.exports ={
     Sequelize: Sequelize,
     sequelize: sequelize
-}*/
+}

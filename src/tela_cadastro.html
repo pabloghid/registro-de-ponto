@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Cadastro</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/src/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap">
     <script type="text/javascript">
     </script>
@@ -63,13 +63,13 @@
     <div>
       <fieldset>
         <legend><label>Dias de trabalho</label></legend>
-        <label><input name="domingo" type="checkbox"/>Domingo</label>
-        <label><input type="checkbox"/>Segunda-feira</label>
-        <label><input type="checkbox"/>Terça-feira</label>
-        <label><input type="checkbox"/>Quarta-feira</label>
-        <label><input type="checkbox"/>Quinta-feira</label>        
-        <label><input type="checkbox"/>Sexta-feira</label>
-        <label><input type="checkbox"/>Sábado</label>
+        <label><input type="checkbox" name="domingo"/>Domingo</label>
+        <label><input type="checkbox" name="segunda"/>Segunda-feira</label>
+        <label><input type="checkbox" name="terca"/>Terça-feira</label>
+        <label><input type="checkbox" name="quarta"/>Quarta-feira</label>
+        <label><input type="checkbox" name="quinta"/>Quinta-feira</label>        
+        <label><input type="checkbox" name="sexta"/>Sexta-feira</label>
+        <label><input type="checkbox" name="sabado"/>Sábado</label>
     </fieldset>
     </div>
         <div text-align: center;>
@@ -77,12 +77,8 @@
         </div>
     </table>
     </form>
-
-    
-
     <script>
       function EnviarDados(){
-        var codigo = document.getElementById("codigo").value;
         var nome = document.getElementById("nome").value;        
         var sexo = document.getElementById("sexo").value;
         var idade = document.getElementById("idade").value;
@@ -92,7 +88,14 @@
         var hora_saida_manha = document.getElementById("hora_saida_manha").value;
         var hora_inicio_tarde = document.getElementById("hora_inicio_tarde").value;
         var hora_saida_tarde = document.getElementById("hora_saida_tarde").value;
-        
+        var domingo = document.getElementById("domingo").value;
+        var segunda = document.getElementById("segunda").value;
+        var terca = document.getElementById("terca").value;
+        var quarta = document.getElementById("quarta").value;
+        var quinta = document.getElementById("quinta").value;
+        var sexta = document.getElementById("sexta").value;
+        var sabado = document.getElementById("sabado").value;
+
         if (cpf.length < 14 ){
           alert('CPF inválido')
         }else if (idade<0){
