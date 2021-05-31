@@ -7,16 +7,25 @@
     </title>
 </head>
 <body>
-    <h1>Bater ponto saída</h1>
+    <form action="/confirma_ponto" method="POST">
+        <h1>Bater ponto saída</h1>
 
-    <tr>
-        <td>Nome: </td>
-        <td><input type="text" name="nome" id="nome"  style="text-align: left;"></td>
-    </tr>
-    <tr>
-        <td>Horário de saída: </td>
-        <td><input type="text" name="nome" id="nome"  style="text-align: left;"></td>
-    </tr>
-    
+        <tr>
+            <td>Nome: </td>
+            <td><input type="text" name="nome" id="nome"  style="text-align: left;"></td>
+        </tr>
+        <tr>
+            <td>Horário de saída: </td>
+            <td><input type="text" name="hora_saida" id="hora_saida"  style="text-align: left;"></td>
+        </tr>
+        <button type="submit"> Enviar </button>
+
+        <script>
+            function EnviarDados(){
+                var nome = document.getElementById("nome").value;
+                var hora_saida = document.getElementById("hora_saida").value;
+            }
+        </script>
+    </form>
 </body>
 </html>

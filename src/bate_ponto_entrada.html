@@ -7,16 +7,25 @@
     </title>
 </head>
 <body>
-    <h1>Bater ponto entrada</h1>
+    <form action="/confirma_ponto" method="POST">
+        <h1>Bater ponto entrada</h1>
 
-    <tr>
-        <td>Nome: </td>
-        <td><input type="text" name="nome" id="nome"  style="text-align: left;"></td>
-    </tr>
-    <tr>
-        <td>Horário de entrada: </td>
-        <td><input type="text" name="nome" id="nome"  style="text-align: left;"></td>
-    </tr>
-    
+        <tr>
+            <td>Nome: </td>
+            <td><input type="text" name="nome" id="nome"  style="text-align: left;"></td>
+        </tr>
+        <tr>
+            <td>Horário de entrada: </td>
+            <td><input type="text" name="hora_entrada" id="hora_entrada"  style="text-align: left;"></td>
+        </tr>
+        <button type="submit"> Enviar </button>
+
+        <script>
+            function EnviarDados(){
+                var nome = document.getElementById("nome").value;
+                var hora_entrada = document.getElementById("hora_entrada").value;
+            }
+        </script>
+    </form>
 </body>
 </html>

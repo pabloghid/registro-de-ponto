@@ -5,7 +5,7 @@ const Sequelize = require('sequelize');
 const cadastros = require ("./models/cadastros");
 const mysql = require('mysql');
 const { json } = require("body-parser");
-
+const bd_saldo_horas = require("./models/bd_saldo_horas");
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
@@ -60,13 +60,27 @@ app.get("/", function(req, res){
     res.sendFile(__dirname + "/src/tela_cadastro.html");
 });
 
+app.get("/pesquisar", function(req, res){
+    res.sendFile(__dirname + "/src/pesquisar_user.html");
+})
+
 app.get("/bate_ponto_entrada", function(req, res){
-    res.sendFile(__dirname + "/src/bate_ponto_entrada.html")
+    res.sendFile(__dirname + "/src/bate_ponto_entrada.html") 
+})
+app.post("/confirma_ponto",function(req,res){
+    res.sendFile(__dirname + "/src/confirma_ponto.html")
+    bd_saldo_horas.create({
+
+        nome: req.body.nome,       
+        hora_entrada: req.body.hora_entrada,
+        hora_saida: req.body.hora_saida
+    })
 })
 
 app.get("/bate_ponto_saida", function(req, res){
     res.sendFile(__dirname + "/src/bate_ponto_saida.html")
-})
+    })
+
 
 app.get("/tela_cadastro",function(req, res){
     res.sendFile(__dirname + "/src/tela_cadastro.html");
