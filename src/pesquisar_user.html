@@ -1,9 +1,30 @@
+
 <!DOCTYPE html>
 <html>
     <body>
-        <label>
-            Pesquisar:
-        </label>
+        <form action="/src/pesquisar_user.html" method="GET">
+            <div>
+            <label>Pesquisar: 
+                <input name="pesquisar" placeholder="Nome do Funcionário">
+                <button type="submit" >Pesquisar Funcionário</button>
+            </label>
+            </div>
+            <script>
+                var pesquisa = require("../models/bd_saldo_horas");
+                    pesquisa.find({}, function(err, allpesquisa){
+                    if(err){
+                        consol.log(err);
+                    }else {
+                        res.render(__dirname + "/models/bd_saldo_horas", {pesquisa:allpesquisa})
+                    }
+                    });
+                    console.log('Procurando:')
+                    console.log('req.query.pesquisa')
 
+                    function escapeRegex(text) {
+                        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                    };
+            </script>
+        </form>
     </body>
 </html>

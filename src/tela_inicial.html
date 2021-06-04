@@ -1,0 +1,78 @@
+<html>
+<header>
+    <title>Ponto</title>
+</header>
+<style>
+    #div_relogio{
+        font-size: 100;
+        color: rgb(255, 255, 255);
+        text-align: center;
+        margin-top: 150;
+        
+
+    }
+
+    #botao{
+        margin-top: 150;
+        text-align: center;
+        color: darkgoldenrod;
+    }
+    
+    #container{
+    
+        padding: 10px;  
+        margin-left: 480px;
+        margin-right: 480px;
+        margin-top: 20px;
+    }
+
+    #texto{
+        font-size: 70;
+        color: rgb(255, 255, 255);
+
+    }
+    #body{
+        background-image: url('https://i2.wp.com/wallpaperaccess.com/full/561122.jpg');
+        text-align:center;
+       
+        /*https://wallpaperaccess.com/full/4767257.jpg*/
+    }
+    
+    </style>
+<body id=body>
+    <h1 id="texto">Registro Ponto</h1>
+
+
+<div id="div_relogio"></div>
+<section class = "conteaner" id = "container">
+    <div id = "botao">
+        <form action="/tela_cadastro" method="POST">
+        <p><button type="submit" id = "tela_cadastro_funcionario" style=" width: 200px; height: 50px">Cadastrar novo funcionario</button></p>
+        </form>
+        <form action="/bate_ponto_entrada" method="POST">
+        <p><button type="submit" id = "bater_entrada" style="width: 200px; height: 50px">Bater ponto entrada</button></p>
+        </form>
+        <form action="/bate_ponto_saida" method="POST">
+        <p></p> <button type="submit" id = "bater_saida" style="width: 200px; height: 50px">Bater ponto saida</button></p>
+        </form>
+    </div>
+
+</section>
+
+</body>
+
+<script>
+function relogio(){
+
+    var date = new Date();
+    var hora = date.getHours();
+    var minuto = date.getMinutes();
+    var segundo = date.getSeconds();
+
+    var tempo_total = hora + ":" + minuto + ":" + segundo;
+    var tempo = window.document.getElementById('div_relogio');
+    tempo.innerHTML = tempo_total;
+}
+setInterval(relogio,500);
+</script>
+</html>

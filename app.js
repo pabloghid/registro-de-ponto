@@ -41,7 +41,7 @@ connection.connect(function(err){
     }
     console.log('connected as id ' +connection.threadId);
 });
-
+/*
 connection.query('SELECT * FROM bd_registros', function(err, rows, fields){
     if(!err){
         console.log('Resultado: ', rows);
@@ -49,6 +49,19 @@ connection.query('SELECT * FROM bd_registros', function(err, rows, fields){
        console.log('Erro na consulta');
    }
 })
+*/
+
+//////////teste
+
+connection.query('SELECT * FROM saldo_horas', function(err, rows, fields){
+    if(!err){
+        console.log('Resultado: ', rows);
+   }else{
+       console.log('Erro na consulta');
+   }
+})
+
+
 
 ////// 'FIM' Conexao
 
@@ -64,7 +77,11 @@ app.get("/pesquisar", function(req, res){
     res.sendFile(__dirname + "/src/pesquisar_user.html");
 })
 
-app.get("/bate_ponto_entrada", function(req, res){
+app.get("/tela_inicial", function(req, res){
+    res.sendFile(__dirname + "/src/tela_inicial.html");
+})
+
+app.post("/bate_ponto_entrada", function(req, res){
     res.sendFile(__dirname + "/src/bate_ponto_entrada.html") 
 })
 app.post("/confirma_ponto",function(req,res){
@@ -77,12 +94,12 @@ app.post("/confirma_ponto",function(req,res){
     })
 })
 
-app.get("/bate_ponto_saida", function(req, res){
+app.post("/bate_ponto_saida", function(req, res){
     res.sendFile(__dirname + "/src/bate_ponto_saida.html")
     })
 
 
-app.get("/tela_cadastro",function(req, res){
+app.post("/tela_cadastro",function(req, res){
     res.sendFile(__dirname + "/src/tela_cadastro.html");
 })
 

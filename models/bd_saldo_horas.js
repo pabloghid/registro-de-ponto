@@ -11,5 +11,5 @@ const bd_saldo_horas = db.sequelize.define('saldo_horas', {
     }
 })
 
-bd_saldo_horas.sync({force:true}) /*--> cria o bd quando executa o código*/
+//bd_saldo_horas.sync({force:true}) /*--> cria o bd quando executa o código*/
 module.exports = bd_saldo_horas
