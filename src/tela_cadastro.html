@@ -4,12 +4,10 @@
     <title>Cadastro</title>
     <link rel="stylesheet" type="text/css" href="/src/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;700&display=swap">
-    <script type="text/javascript">
-    </script>
   </head>
   <body>
     
-    <form action="/confirmar" method="POST">
+    <form name="frm" action="/confirmar" method="POST" onsubmit="return (ValidarDados())">
       <div> 
         <p id="teste" style="text-align: center;">Tela de Cadastro de Funcionários        
         </p>
@@ -61,7 +59,7 @@
         </body>
       </table>
     <div>
-      <fieldset>
+      <!--<fieldset>
         <legend><label>Dias de trabalho</label></legend>
         <label><input type="checkbox" name="domingo"/>Domingo</label>
         <label><input type="checkbox" name="segunda"/>Segunda-feira</label>
@@ -70,24 +68,52 @@
         <label><input type="checkbox" name="quinta"/>Quinta-feira</label>        
         <label><input type="checkbox" name="sexta"/>Sexta-feira</label>
         <label><input type="checkbox" name="sabado"/>Sábado</label>
-    </fieldset>
+    </fieldset>-->
     </div>
         <div text-align: center;>
         <button name="Botao_Enviar" type="submit" value="Enviar" class="Center">Enviar</button>
         </div>
     </table>
     </form>
-    <script>
-      function EnviarDados(){
+    <script type="text/javascript">
+      function ValidarDados(){
+        
+        ///nome funciona, idade não
         var nome = document.getElementById("nome").value;        
         var sexo = document.getElementById("sexo").value;
         var idade = document.getElementById("idade").value;
         var cpf = document.getElementById("cpf").value;
+        var idade = document.getElementById("idade").value;
         var cargo = document.getElementById("cargo").value;
         var hora_inicio_manha = document.getElementById("hora_inicio_manha").value;
         var hora_saida_manha = document.getElementById("hora_saida_manha").value;
         var hora_inicio_tarde = document.getElementById("hora_inicio_tarde").value;
         var hora_saida_tarde = document.getElementById("hora_saida_tarde").value;
+        
+        if(nome === ''){
+          return confirm('Nome inválido')
+        }else if (idade<=0 || idade === ''){
+          return confirm('Idade inválida')
+        }else if(cpf.length<14){
+          return confirm('CPF inválido')
+        }else if(cargo === ''){
+          return confirm('Cargo inválido')
+        }else if(hora_inicio_manha === ''){
+          return confirm('Hora início pela manhã inválida')
+        }else if(hora_saida_manha === ''){
+          return confirm('Hora saída pela manhã inválida')
+        }else if(hora_inicio_tarde === ''){
+          return confirm('Hora início pela tarde inválida')
+        }else if(hora_saida_tarde === ''){
+          return confirm('Hora saída pela tarde inválida')
+        }else if (hora_inicio_manha>hora_saida_manha){
+          return confirm('Horários pela manhã inválidos')
+        }else if(hora_inicio_tarde>hora_saida_tarde){
+          return confirm('Horários pela tarde inválidos')
+        }else{
+          return confirm('Tem certeza que deseja enviar esses dados?')
+        }
+
         var domingo = document.getElementById("domingo").value;
         var segunda = document.getElementById("segunda").value;
         var terca = document.getElementById("terca").value;
@@ -96,15 +122,7 @@
         var sexta = document.getElementById("sexta").value;
         var sabado = document.getElementById("sabado").value;
 
-        if (cpf.length < 14 ){
-          alert('CPF inválido')
-        }else if (idade<0){
-            alert('Idade inválida')
-          }else{                
-          alert('Cadastro realizado com sucesso');
-          }
       }
-
-    </script>
+  </script>
   </body>
 </html>

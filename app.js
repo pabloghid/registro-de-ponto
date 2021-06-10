@@ -23,6 +23,7 @@ sequelize.authenticate().then(function(){
     console.log('Erro ao conectar com o Banco' + err);
 });
 
+
 //Conexão BD
 
 const connection = mysql.createConnection({
@@ -39,7 +40,7 @@ connection.connect(function(err){
         console.error('error conecting: ' + err.stack);
         return;
     }
-    console.log('connected as id ' +connection.threadId);
+    console.log('connected as id ' + connection.threadId);
 });
 /*
 connection.query('SELECT * FROM bd_registros', function(err, rows, fields){
@@ -52,14 +53,15 @@ connection.query('SELECT * FROM bd_registros', function(err, rows, fields){
 */
 
 //////////teste
-
+///mostra cadastros no bd_saldo_horas
+/*
 connection.query('SELECT * FROM saldo_horas', function(err, rows, fields){
     if(!err){
         console.log('Resultado: ', rows);
    }else{
        console.log('Erro na consulta');
    }
-})
+})*/
 
 
 
@@ -104,7 +106,8 @@ app.post("/tela_cadastro",function(req, res){
 })
 
 app.post("/confirmar", function(req, res){
-   
+    
+
     if(req.body.domingo == "on"){
         req.body.domingo = "Sim";
     }
@@ -158,7 +161,7 @@ app.post("/confirmar", function(req, res){
     + "<br>Sexta: " + req.body.sexta
     + "<br>Sábado: " + req.body.sabado);
     
-    res.sendFile(__dirname + "/src/confirmar.html");
+   // res.sendFile(__dirname + "/src/confirmar.html");
     
     // SE PARAR DE FUNCIONAR É PQ BOTOU CPF ERRADO
     cadastros.create({
@@ -172,14 +175,19 @@ app.post("/confirmar", function(req, res){
        hora_inicio_tarde: req.body.hora_inicio_tarde,
        hora_saida_tarde: req.body.hora_saida_tarde,
        domingo: req.body.domingo,
-       segunda: req.body.segunda
     
-   }).then(function(){
-       res.send("Cadastrado com sucesso")
-   }).catch(function(erro){
-       res.send("Erro ao cadastrar usuário" + erro)
-   })
+       function(err, result){
+           if(!err){
+               console.log('Funcionou');
+           }else{
+            console.log('Não funcionou')
+           }
+        
+       }
+    
+    })
+
 })
 
 //localhost:8080
-app.listen(8080);
+app.listen(8080)
