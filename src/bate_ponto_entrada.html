@@ -7,6 +7,27 @@
     </title>
 </head>
 <style>
+
+form {
+    background: rgba(255, 255, 255, 0.03);
+
+    width: 100%;
+    max-width: 500px;
+
+    margin: 32px auto ;
+    padding: 32px 64px;
+
+    display: flex;
+    flex-direction: column;
+    
+}
+
+* {
+    margin: 5px;
+    padding: 0px;
+    box-sizing: content-box;
+}
+
 #texto{
         font-size: 70;
         color: rgb(255, 255, 255);
@@ -26,32 +47,32 @@
 <body id=body>
     <form action="/confirma_ponto" method="POST">
         <h1 id="texto">Bater ponto de entrada</h1>
+        <fieldset>    
+            <table> 
+                 <tr>
+                    <legend><label>Dados</label></legend>
+                    <div id = "box">   
+                    <td style = "text-align: left;">Nome: </td>                
+                    <td><input type="text" name="nome" id="nome"></td>
+                    </div>    
+                </tr>
 
-        <tr>
-        <div id="box">    
-            <td>Nome: </td>
-            <td><label><input type="text" name="nome" id="nome"  style="text-align: left;"></label></td>
-        </div>
-        </tr>
-        <tr>
-            <div id="box"> 
-            <td>Horário de entrada: </td>
-            <td><input type="text" name="hora_entrada" id="hora_entrada"  style="text-align: left;"></td>
-            </div>
-        </tr>
-        <fieldset>
-            <legend><label>Período</label></legend>
-            <label><input type="checkbox" name="Matutino"/>Matutino</label>
-            <label><input type="checkbox" name="Vespertino"/>Vespertino</label>
-        </fieldset>
+                 <tr>
+                    <div id = "box">
+                    <td style = "text-align: left;">Horário de entrada: </td>
+                    <td><input type="text" name="hora_entrada" id="hora_entrada"  style="text-align: left;"></td>
+                    </div>
+                </tr>    
+            </table>
+        </fieldset>    
         <button type="submit"> Enviar </button>
-
+    </form>
         <script>
             function EnviarDados(){
                 var nome = document.getElementById("nome").value;
                 var hora_entrada = document.getElementById("hora_entrada").value;
             }
         </script>
-    </form>
+
 </body>
 </html>
