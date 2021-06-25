@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>
@@ -7,72 +8,53 @@
     </title>
 </head>
 <style>
+    form {
+        background: rgba(255, 255, 255, 0.03);
 
-form {
-    background: rgba(255, 255, 255, 0.03);
+        width: 100%;
+        max-width: 500px;
 
-    width: 100%;
-    max-width: 500px;
+        margin: 32px auto;
+        padding: 32px 64px;
 
-    margin: 32px auto ;
-    padding: 32px 64px;
+        display: flex;
+        flex-direction: column;
 
-    display: flex;
-    flex-direction: column;
-    
-}
+    }
 
-* {
-    margin: 5px;
-    padding: 0px;
-    box-sizing: content-box;
-}
+    * {
+        margin: 5px;
+        padding: 0px;
+        box-sizing: content-box;
+    }
 
-#texto{
+    #texto {
         font-size: 70;
         color: rgb(255, 255, 255);
 
     }
-#body{
-    background-image: url('https://newtrade.com.br/wp-content/uploads/2017/11/background-azul.gif');
-    text-align:center;
-   
-}
-#box{
+
+    body {
+        background-image: url('https://newtrade.com.br/wp-content/uploads/2017/11/background-azul.gif');
+        text-align: center;
+
+    }
+
+    #box {
         margin-top: 100;
         text-align: center;
         color: black;
     }
 </style>
-<body id=body>
-    <form action="/confirma_ponto" method="POST">
-        <h1 id="texto">Bater ponto de entrada</h1>
-        <fieldset>    
-            <table> 
-                 <tr>
-                    <legend><label>Dados</label></legend>
-                    <div id = "box">   
-                    <td style = "text-align: left;">Nome: </td>                
-                    <td><input type="text" name="nome" id="nome"></td>
-                    </div>    
-                </tr>
 
-                 <tr>
-                    <div id = "box">
-                    <td style = "text-align: left;">Horário de entrada: </td>
-                    <td><input type="text" name="hora_entrada" id="hora_entrada"  style="text-align: left;"></td>
-                    </div>
-                </tr>    
-            </table>
-        </fieldset>    
-        <button type="submit"> Enviar </button>
-    </form>
-        <script>
-            function EnviarDados(){
-                var nome = document.getElementById("nome").value;
-                var hora_entrada = document.getElementById("hora_entrada").value;
-            }
-        </script>
+<body>
+    <h1 id="texto">Bater ponto de entrada</h1>
+    <h2>
+        Sucesso!
+    </h2>
+    </fieldset>
+    <p><a href="/"><button style=" width: 200px; height: 50px">Início</button></a></p>
 
 </body>
+
 </html>

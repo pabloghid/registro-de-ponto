@@ -1,11 +1,12 @@
 CREATE TABLE funcionarios(
-	id int not null UNIQUE AUTO_INCREMENT,
-    cd_funcionario int not null PRIMARY KEY,
+    cd_funcionario int not null PRIMARY KEY AUTO_INCREMENT,
     nome char(55) not null,
     cpf int not null UNIQUE,
     cargo char(55) not null,
-    hora_inicio_manha time,
-    hora_saida_manha time,
-    hora_inicio_tarde time,
-    hora_saida_tarde time
+    hora_inicio_1 time,
+    hora_saida_1 time,
+    hora_inicio_2 time,
+    hora_saida_2 time,
+    createdAt datetime DEFAULT CURRENT_DATE,
+    updatedAt datetime DEFAULT CURRENT_DATE
 );

@@ -45,14 +45,16 @@
 <div id="div_relogio"></div>
 <section class = "conteaner" id = "container">
     <div id = "botao">
-        <form action="/tela_cadastro" method="POST">
-        <p><button type="submit" id = "tela_cadastro_funcionario" style=" width: 200px; height: 50px">Cadastrar novo funcionario</button></p>
+        <p><a href="cadastro" id="tela_cadastro_funcionario"><button style=" width: 200px; height: 50px">Cadastrar novo funcionario</button></a></p>
         </form>
-        <form action="/bate_ponto_entrada" method="POST">
+        <form action="bate_ponto_entrada" method="POST">
         <p><button type="submit" id = "bater_entrada" style="width: 200px; height: 50px">Bater ponto entrada</button></p>
         </form>
-        <form action="/bate_ponto_saida" method="POST">
+        <form action="bate_ponto_saida" method="POST">
         <p></p> <button type="submit" id = "bater_saida" style="width: 200px; height: 50px">Bater ponto saida</button></p>
+        </form>
+        <form action="pesquisaFuncionario" method="GET">
+        <p></p> <button id = "relatorio" style="width: 200px; height: 50px">Gerar relatório</button></p>
         </form>
     </div>
 

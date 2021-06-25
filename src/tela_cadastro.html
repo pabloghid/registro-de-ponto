@@ -15,7 +15,7 @@
       <table>
         <tr>
         <td>Nome: </td>
-        <td><input type="text" name="nome" id="nome" placeholder="Ex: Guilherme Locatelli" style="text-align: left;"></td>
+        <td><input type="text" name="nome" id="nome" placeholder="Ex: Guilherme Locatelli" style="text-align: left;" required></td>
         </tr>
         <tr>
         <td>Idade: </td>
@@ -33,27 +33,27 @@
         </div>
         <tr>
         <td>CPF: </td>
-        <td><input type="int" name="cpf" id="cpf" placeholder="Ex: 000.000.000-00" style="text-align: left;"></td>
+        <td><input type="int" name="cpf" id="cpf" placeholder="Ex: 000.000.000-00" style="text-align: left;" required></td>
         </tr>
         <tr>
         <td>Cargo: </td>
-        <td><input type="text" name="cargo" id="cargo" placeholder="Ex: Assistente" style="text-align: left;"></td>
+        <td><input type="text" name="cargo" id="cargo" placeholder="Ex: Assistente" style="text-align: left;" required></td>
         </tr>
         <tr>
         <td>Hora início pela manhã: </td>
-        <td><input type="time" name="hora_inicio_manha" id="hora_inicio_manha" placeholder="Ex: 07:30" style="text-align: left;"></td>
+        <td><input type="time" name="hora_inicio_manha" id="hora_inicio_manha" placeholder="Ex: 07:30" style="text-align: left;" required></td>
         </tr>
         <tr>
         <td>Hora saída pela manhã: </td>
-        <td><input type="time" name="hora_saida_manha" id="hora_saida_manha" placeholder="Ex: 12:00" style="text-align: left;"></td>
+        <td><input type="time" name="hora_saida_manha" id="hora_saida_manha" placeholder="Ex: 12:00" style="text-align: left;" required></td>
         </tr>
         <tr>
         <td>Hora início pela tarde: </td>
-        <td><input type="time" name="hora_inicio_tarde" id="hora_inicio_tarde" placeholder="Ex: 13:30" style="text-align: left;"></td>
+        <td><input type="time" name="hora_inicio_tarde" id="hora_inicio_tarde" placeholder="Ex: 13:30" style="text-align: left;" required></td>
         </tr>
         <tr>
         <td>Hora saída pela tarde: </td>
-        <td><input type="time" name="hora_saida_tarde" id="hora_saida_tarde" placeholder="Ex: 17:30" style="text-align: left;"></td>
+        <td><input type="time" name="hora_saida_tarde" id="hora_saida_tarde" placeholder="Ex: 17:30" style="text-align: left;" required></td>
         </tr>
         </table>
         </body>
@@ -91,25 +91,25 @@
         var hora_saida_tarde = document.getElementById("hora_saida_tarde").value;
         
         if(nome === ''){
-          return confirm('Nome inválido')
+          return alert('Nome inválido')
         }else if (idade<=0 || idade === ''){
-          return confirm('Idade inválida')
+          return alert('Idade inválida')
         }else if(cpf.length<14){
-          return confirm('CPF inválido')
+          return alert('CPF inválido')
         }else if(cargo === ''){
-          return confirm('Cargo inválido')
+          return alert('Cargo inválido')
         }else if(hora_inicio_manha === ''){
-          return confirm('Hora início pela manhã inválida')
+          return alert('Hora início pela manhã inválida')
         }else if(hora_saida_manha === ''){
-          return confirm('Hora saída pela manhã inválida')
+          return alert('Hora saída pela manhã inválida')
         }else if(hora_inicio_tarde === ''){
-          return confirm('Hora início pela tarde inválida')
+          return alert('Hora início pela tarde inválida')
         }else if(hora_saida_tarde === ''){
-          return confirm('Hora saída pela tarde inválida')
+          return alert('Hora saída pela tarde inválida')
         }else if (hora_inicio_manha>hora_saida_manha){
-          return confirm('Horários pela manhã inválidos')
+          return alert('Horários pela manhã inválidos')
         }else if(hora_inicio_tarde>hora_saida_tarde){
-          return confirm('Horários pela tarde inválidos')
+          return alert('Horários pela tarde inválidos')
         }else{
           return confirm('Tem certeza que deseja enviar esses dados?')
         }

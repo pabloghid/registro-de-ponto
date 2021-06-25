@@ -1,193 +1,224 @@
 const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
-const Sequelize = require('sequelize');
-const cadastros = require ("./models/cadastros");
-const mysql = require('mysql');
-const { json } = require("body-parser");
-const bd_saldo_horas = require("./models/bd_saldo_horas");
+const db = require('./models/db');
+const { Cadastro, Usuario, Controle_ponto, Saldohoras } = require("./models/cadastros");
+const session = require('express-session');
+const moment = require("moment");
 
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+
+app.use(session({
+    secret: 'test',
+    resave: false,
+    saveUninitialized: false
+}))
 app.use('/src', express.static(__dirname + '/src'));
-//conexao bd sequelize
 
-const sequelize = new Sequelize('bd','viniteste','123456',{
-    host:'localhost',
-    dialect:'mysql'
+app.get("/", function (req, res) {
+    console.log(req.session);
+    if (req.session.loggedin) {
+        res.sendFile(__dirname + "/src/tela_inicial.html");
+    }
+    else {
+        res.redirect("/login");
+    }
+})
+
+app.get("/login", function (req, res) {
+    res.sendFile(__dirname + "/src/login.html");
+})
+
+app.post('/auth', function (request, response) {
+    var usuario = request.body.usuario;
+    var senha = request.body.senha;
+    if (usuario && senha) {
+        Usuario.findAll({
+            where: {
+                usuario: usuario,
+                senha: senha
+            }
+        }).then(function (results) {
+            if (results.length > 0) {
+                console.log(results[0].cd_funcionario);
+                request.session.loggedin = true;
+                request.session.username = usuario;
+                request.session.codFunc = results[0].cd_funcionario;
+                response.redirect('/');
+            } else {
+                response.send('Incorrect Username and/or Password!');
+            }
+            response.end();
+        });
+    } else {
+        response.send('Please enter Username and Password!');
+        response.end();
+    }
 });
 
-sequelize.authenticate().then(function(){
-    console.log('Conectado com sucesso');
-}).catch(function(err){
-    console.log('Erro ao conectar com o Banco' + err);
+app.get("/cadastro", function (req, res) {
+    if (req.session.loggedin) {
+        res.sendFile(__dirname + "/src/tela_cadastro.html");
+    }
+    else {
+        res.redirect("/login");
+    }
 });
 
-
-//Conexão BD
-
-const connection = mysql.createConnection({
-    host    : 'localhost',
-    user    : 'viniteste',
-    password: '123456',
-    database: 'bd'
-    
+app.get("/pesquisaFuncionario", function (req, res) {
+    if (req.session.loggedin) {
+        res.sendFile(__dirname + "/src/pesquisaFuncionario.html")
+    }
+    else {
+        res.redirect("/login");
+    }
+    //res.sendFile(__dirname + "/src/pesquisar_user.html");
 })
 
-connection.connect(function(err){
-
-    if (err){
-        console.error('error conecting: ' + err.stack);
-        return;
+app.post("/gerarRelatorio", function (req, res) {
+    if (req.session.loggedin) {
+        Saldohoras.findAll({
+            include: [
+                {
+                    model: Cadastro,
+                    where: { cpf: req.body.CPF }
+                }
+            ]
+        }).then(function (result) {
+            res.render(__dirname + '/src/relatorio.pug', { teste: result });
+        })
     }
-    console.log('connected as id ' + connection.threadId);
-});
-/*
-connection.query('SELECT * FROM bd_registros', function(err, rows, fields){
-    if(!err){
-        console.log('Resultado: ', rows);
-   }else{
-       console.log('Erro na consulta');
-   }
-})
-*/
-
-//////////teste
-///mostra cadastros no bd_saldo_horas
-/*
-connection.query('SELECT * FROM saldo_horas', function(err, rows, fields){
-    if(!err){
-        console.log('Resultado: ', rows);
-   }else{
-       console.log('Erro na consulta');
-   }
-})*/
-
-
-
-////// 'FIM' Conexao
-
-/*calculo*/
-
-//////////////////
-
-app.get("/", function(req, res){
-    res.sendFile(__dirname + "/src/tela_cadastro.html");
-});
-
-app.get("/pesquisar", function(req, res){
-    res.sendFile(__dirname + "/src/pesquisar_user.html");
+    else {
+        res.redirect("/login");
+    }
+    //res.sendFile(__dirname + "/src/pesquisar_user.html");
 })
 
-app.get("/tela_inicial", function(req, res){
-    res.sendFile(__dirname + "/src/tela_inicial.html");
+app.post("/bate_ponto_entrada", function (req, res) {
+    if (req.session.loggedin) {
+        var diaAtual = new Date();
+        var horaAtual = diaAtual.getHours() + ":" + diaAtual.getMinutes();
+        Controle_ponto.create({
+            cd_funcionario: req.session.codFunc,
+            hora_entrada: horaAtual
+        }).then(function () {
+            res.sendFile(__dirname + "/src/bate_ponto_entrada.html")
+        })
+    }
+    else {
+        res.redirect("/login");
+    }
 })
 
-app.post("/bate_ponto_entrada", function(req, res){
-    res.sendFile(__dirname + "/src/bate_ponto_entrada.html") 
-})
-app.post("/confirma_ponto",function(req,res){
-    res.sendFile(__dirname + "/src/confirma_ponto.html")
-    bd_saldo_horas.create({
+app.post("/bate_ponto_saida", function (req, res) {
+    if (req.session.loggedin) {
+        Controle_ponto.findOne({
+            where: {
+                cd_funcionario: req.session.codFunc,
+                hora_saida: null
+            }
+        }).then(function (result) {
+            var d = new Date();
+            var horaAtual = d.getHours() + ":" + d.getMinutes();
+            Controle_ponto.update({ hora_saida: horaAtual }, {
+                where: {
+                    cd_funcionario: req.session.codFunc,
+                    hora_saida: null
+                }
+            }).then(function () {
+                var ano = d.getFullYear();
+                var mes = d.getMonth()+1;
+                var dia = d.getDate();
+                var diaAtual = ano + '-' + mes + '-' + dia;
+                Promise.all([Cadastro.findOne({
+                    where: {
+                        cd_funcionario: req.session.codFunc
+                    },
+                }), Saldohoras.findAll({
+                    where:{
+                        createdAt: diaAtual
+                    }
+                    })
+                ]).then(function (resultFunc) {
+                    cadastroSelect = resultFunc[0];
+                    saldoSelect = resultFunc[1];
+                    if (saldoSelect.length > 0){
+                        for (var i = 0; i < saldoSelect.length; i++){
+                            console.log(saldoSelect[i].saldo)
+                        }
+                    }
+                    var entradaPadrao1 = moment(cadastroSelect.hora_inicio_manha, 'HH:mm');
+                    var saidaPadrao1 = moment(cadastroSelect.hora_saida_manha, 'HH:mm');
+                    var entradaPadrao2 = moment(cadastroSelect.hora_inicio_tarde, 'HH:mm');
+                    var saidaPadrao2 = moment(cadastroSelect.hora_saida_tarde, 'HH:mm');
 
-        nome: req.body.nome,       
-        hora_entrada: req.body.hora_entrada,
-        hora_saida: req.body.hora_saida
-    })
-})
+                    var entradaHoje = moment(result.hora_entrada, 'HH:mm')
+                    var saidaHoje = moment(horaAtual, 'HH:mm');
 
-app.post("/bate_ponto_saida", function(req, res){
-    res.sendFile(__dirname + "/src/bate_ponto_saida.html")
-    })
+                    var saldoIni = (((saidaPadrao1.get("hour") * 60 + saidaPadrao1.get("minute")) + (saidaPadrao2.get("hour") * 60 + saidaPadrao2.get("minute")))) - (((entradaPadrao1.get("hour") * 60 + entradaPadrao1.get("minute")) + (entradaPadrao2.get("hour") * 60 + entradaPadrao2.get("minute"))));
+                    var saldoFim = (saidaHoje.get("hour") * 60 + saidaHoje.get("minute")) - (entradaHoje.get("hour") * 60 + entradaHoje.get("minute"));
+                    
+                    var saldo = saldoFim - saldoIni;
 
-
-app.post("/tela_cadastro",function(req, res){
-    res.sendFile(__dirname + "/src/tela_cadastro.html");
-})
-
-app.post("/confirmar", function(req, res){
-    
-
-    if(req.body.domingo == "on"){
-        req.body.domingo = "Sim";
+                    console.log(saldo);
+                    Saldohoras.create({
+                        cd_funcionario: req.session.codFunc,
+                        saldo: saldo
+                    }).then(res.sendFile(__dirname + "/src/bate_ponto_saida.html"))
+                })
+            })
+        })
     }
-    else{
-        req.body.domingo = "Não"
+    else {
+        res.redirect("/login");
     }
-    if(req.body.segunda == "on"){
-        req.body.segunda = "Sim";
-    }
-    else{
-        req.body.segunda = "Não"
-    }
-    if(req.body.terca == "on"){
-        req.body.terca = "Sim";
-    }
-    else{
-        req.body.terca = "Não"
-    }
-    if(req.body.quarta == "on"){
-        req.body.quarta = "Sim";
-    }
-    else{
-        req.body.quarta = "Não"
-    }
-    if(req.body.quinta == "on"){
-        req.body.quinta = "Sim";
-    }
-    else{
-        req.body.quinta = "Não"
-    }
-    if(req.body.sexta == "on"){
-        req.body.sexta = "Sim";
-    }
-    else{
-        req.body.sexta = "Não"
-    }
-    if(req.body.sabado == "on"){
-        req.body.sabado = "Sim";
-    }
-    else{
-        req.body.sabado = "Não"
-    }
-    res.send("Nome: " + req.body.nome + "<br>Idade: " + req.body.idade + "<br>" + "<br>Sexo: " + req.body.sexo + "<br>" + "<br>CPF: "
-     + req.body.cpf+ "<br>" +"<br>Cargo: " + req.body.cargo+ "<br>"+"<br>Hora início pela manhã: " 
-    + req.body.hora_inicio_manha+ "<br>"+"<br>Hora saída pela manhã: " + req.body.hora_saida_manha+ 
-    "<br>" +"<br>Hora início pela tarde: " + req.body.hora_inicio_tarde+ "<br>"
-    +"<br>Hora saída pela tarde: " + req.body.hora_saida_tarde+ "<br>" + 
-    "<br> Dias da semana: <br> Domingo: " + req.body.domingo +"<br>" + "Segunda: " + req.body.segunda +"<br>" + "Terça: " + req.body.terca 
-    + "<br>Quarta: " + req.body.quarta
-    + "<br>Quinta: " + req.body.quinta
-    + "<br>Sexta: " + req.body.sexta
-    + "<br>Sábado: " + req.body.sabado);
-    
-   // res.sendFile(__dirname + "/src/confirmar.html");
-    
-    // SE PARAR DE FUNCIONAR É PQ BOTOU CPF ERRADO
-    cadastros.create({
-       nome: req.body.nome,
-       idade: req.body.idade,
-       sexo: req.body.sexo,
-       cpf:req.body.cpf,
-       cargo: req.body.cargo,
-       hora_inicio_manha: req.body.hora_inicio_manha,
-       hora_saida_manha: req.body.hora_saida_manha,
-       hora_inicio_tarde: req.body.hora_inicio_tarde,
-       hora_saida_tarde: req.body.hora_saida_tarde,
-       domingo: req.body.domingo,
-    
-       function(err, result){
-           if(!err){
-               console.log('Funcionou');
-           }else{
-            console.log('Não funcionou')
-           }
-        
-       }
-    
-    })
-
 })
 
-//localhost:8080
+
+app.post("/tela_cadastro", function (req, res) {
+    if (req.session.loggedin) {
+        res.sendFile(__dirname + "/src/tela_cadastro.html");
+    }
+    else {
+        res.redirect("/login");
+    }
+})
+
+app.post("/confirmar", function (req, res) {
+    if (req.session.loggedin) {
+        Cadastro.create({
+            nome: req.body.nome,
+            cpf: req.body.cpf,
+            cargo: req.body.cargo,
+            hora_inicio_manha: req.body.hora_inicio_manha,
+            hora_saida_manha: req.body.hora_saida_manha,
+            hora_inicio_tarde: req.body.hora_inicio_tarde,
+            hora_saida_tarde: req.body.hora_saida_tarde,
+        }).then(function () {
+            res.sendFile(__dirname + "/src/confirmar.html")
+        }).catch(function (erro) {
+            res.send("Erro " + erro)
+        })
+    }
+    else {
+        res.redirect("/login");
+    }
+})
+
+//// calcular saldo horas
+/* var a = moment('13:00', 'HH:mm');
+var b = moment('18:00', 'HH:mm');
+
+var ent = moment('12:58', 'HH:mm');
+var sai = moment('17:50', 'HH:mm');
+
+
+var saldoIni = (b.get("hour")*60+b.get("minute")) - (a.get("hour")*60+a.get("minute"));
+var saldoFim = (sai.get("hour")*60+sai.get("minute")) - (ent.get("hour")*60+ent.get("minute"));
+
+var Saldohoras = saldoFim-saldoIni
+console.log(Saldohoras); */
+
 app.listen(8080)

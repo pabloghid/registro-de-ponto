@@ -1,14 +1,12 @@
 // CRIA TABELA COM SEQUELIZE
-const db = require ('./db')
-const cadastros = db.sequelize.define('bd_registros', {
-    
-    nome:{
-        type: db.Sequelize.STRING
+const db = require('./db')
+const Cadastro = db.sequelize.define('funcionarios', {
+
+    cd_funcionario: {
+        type: db.Sequelize.INTEGER,
+        primaryKey: true
     },
-    idade: {
-        type: db.Sequelize.INTEGER
-    },
-    sexo: {
+    nome: {
         type: db.Sequelize.STRING
     },
     cpf: {
@@ -24,17 +22,61 @@ const cadastros = db.sequelize.define('bd_registros', {
         type: db.Sequelize.TIME
     },
     hora_inicio_tarde: {
-        type: db.Sequelize.TIME        
+        type: db.Sequelize.TIME
     },
     hora_saida_tarde: {
         type: db.Sequelize.TIME
-    },
-    domingo: {
-        type: db.Sequelize.STRING
     }
 
 })
 
-//cadastros.sync({force:true}) /*--> cria o bd quando executa o código*/
+const Usuario = db.sequelize.define('usuario', {
+    cd_funcionario: {
+        type: db.Sequelize.INTEGER,
+        model: 'funcionarios',
+        key: 'cd_funcionario'
+    },
+    usuario: db.Sequelize.STRING,
+    senha: db.Sequelize.STRING
+},
+    {
+        timestamps: false
+    });
 
-module.exports = cadastros
+const Controle_ponto = db.sequelize.define('controle_ponto', {
+    cd_funcionario: {
+        type: db.Sequelize.INTEGER,
+        model: 'funcionarios',
+        key: 'cd_funcionario'
+    },
+    hora_entrada: {
+        type: db.Sequelize.TIME,
+        defaultValue: db.Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    hora_saida: {
+        type: db.Sequelize.TIME,
+    },
+    data_atual: db.Sequelize.DATE,
+}, {
+    freezeTableName: true
+})
+
+const Saldohoras = db.sequelize.define('saldoHoras', {
+    cd_funcionario: {
+        type: db.Sequelize.INTEGER,
+        model: 'funcionarios',
+        key: 'cd_funcionario'
+    },
+    saldo: db.Sequelize.INTEGER,
+    createdAt:{ 
+        type: db.Sequelize.DATEONLY,
+        allowNull: false,
+        defaultValue: db.Sequelize.NOW
+    }
+},
+    {
+        timestamps: false
+    });
+    Saldohoras.belongsTo(Cadastro, { foreignKey: 'cd_funcionario' });
+    
+module.exports = { Cadastro, Usuario, Controle_ponto, Saldohoras };
