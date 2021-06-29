@@ -18,7 +18,6 @@ app.use(session({
 app.use('/src', express.static(__dirname + '/src'));
 
 app.get("/", function (req, res) {
-    console.log(req.session);
     if (req.session.loggedin) {
         res.sendFile(__dirname + "/src/tela_inicial.html");
     }
@@ -42,19 +41,16 @@ app.post('/auth', function (request, response) {
             }
         }).then(function (results) {
             if (results.length > 0) {
-                console.log(results[0].cd_funcionario);
                 request.session.loggedin = true;
                 request.session.username = usuario;
                 request.session.codFunc = results[0].cd_funcionario;
                 response.redirect('/');
             } else {
-                response.send('Incorrect Username and/or Password!');
+                response.sendFile(__dirname + "/src/erro_login.html");;
             }
-            response.end();
         });
     } else {
-        response.send('Please enter Username and Password!');
-        response.end();
+        response.sendFile(__dirname + "/src/login.html");
     }
 });
 
@@ -74,7 +70,6 @@ app.get("/pesquisaFuncionario", function (req, res) {
     else {
         res.redirect("/login");
     }
-    //res.sendFile(__dirname + "/src/pesquisar_user.html");
 })
 
 app.post("/gerarRelatorio", function (req, res) {
@@ -93,7 +88,6 @@ app.post("/gerarRelatorio", function (req, res) {
     else {
         res.redirect("/login");
     }
-    //res.sendFile(__dirname + "/src/pesquisar_user.html");
 })
 
 app.post("/bate_ponto_entrada", function (req, res) {
@@ -158,10 +152,10 @@ app.post("/bate_ponto_saida", function (req, res) {
                         cadastroSelect = resultFunc[0];
                         saldoSelect = resultFunc[1];
 
-                        var entradaPadrao1 = moment(cadastroSelect.hora_inicio_manha, 'HH:mm');
-                        var saidaPadrao1 = moment(cadastroSelect.hora_saida_manha, 'HH:mm');
-                        var entradaPadrao2 = moment(cadastroSelect.hora_inicio_tarde, 'HH:mm');
-                        var saidaPadrao2 = moment(cadastroSelect.hora_saida_tarde, 'HH:mm');
+                        var entradaPadrao1 = moment(cadastroSelect.hora_inicio_1, 'HH:mm');
+                        var saidaPadrao1 = moment(cadastroSelect.hora_saida_1, 'HH:mm');
+                        var entradaPadrao2 = moment(cadastroSelect.hora_inicio_2, 'HH:mm');
+                        var saidaPadrao2 = moment(cadastroSelect.hora_saida_2, 'HH:mm');
 
                         var entradaHoje = moment(result.hora_entrada, 'HH:mm')
                         var saidaHoje = moment(horaAtual, 'HH:mm');
@@ -182,7 +176,6 @@ app.post("/bate_ponto_saida", function (req, res) {
 
                             var saldo = saldoFim - saldoIni;
 
-                            console.log(saldo);
                             Saldohoras.create({
                                 cd_funcionario: req.session.codFunc,
                                 saldo: saldo
@@ -215,12 +208,12 @@ app.post("/confirmar", function (req, res) {
     if (req.session.loggedin) {
         Cadastro.create({
             nome: req.body.nome,
-            cpf: req.body.cpf,
+            cpf: cpfFormatado,
             cargo: req.body.cargo,
-            hora_inicio_manha: req.body.hora_inicio_manha,
-            hora_saida_manha: req.body.hora_saida_manha,
-            hora_inicio_tarde: req.body.hora_inicio_tarde,
-            hora_saida_tarde: req.body.hora_saida_tarde,
+            hora_inicio_1: req.body.hora_inicio_1,
+            hora_saida_1: req.body.hora_saida_1,
+            hora_inicio_2: req.body.hora_inicio_2,
+            hora_saida_2: req.body.hora_saida_2,
         }).then(function () {
             res.sendFile(__dirname + "/src/confirmar.html")
         }).catch(function (erro) {
@@ -231,19 +224,5 @@ app.post("/confirmar", function (req, res) {
         res.redirect("/login");
     }
 })
-
-//// calcular saldo horas
-/* var a = moment('13:00', 'HH:mm');
-var b = moment('18:00', 'HH:mm');
-
-var ent = moment('12:58', 'HH:mm');
-var sai = moment('17:50', 'HH:mm');
-
-
-var saldoIni = (b.get("hour")*60+b.get("minute")) - (a.get("hour")*60+a.get("minute"));
-var saldoFim = (sai.get("hour")*60+sai.get("minute")) - (ent.get("hour")*60+ent.get("minute"));
-
-var Saldohoras = saldoFim-saldoIni
-console.log(Saldohoras); */
 
 app.listen(8080)
