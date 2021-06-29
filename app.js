@@ -82,7 +82,12 @@ app.post("/gerarRelatorio", function (req, res) {
                 }
             ]
         }).then(function (result) {
-            res.render(__dirname + '/src/relatorio.pug', { teste: result });
+            if (result.length > 0){
+                res.render(__dirname + '/src/relatorio.pug', { teste: result });
+            }
+            else{
+                res.sendFile(__dirname + "/src/erro_relatorio.html")
+            }
         })
     }
     else {

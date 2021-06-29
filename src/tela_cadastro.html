@@ -10,9 +10,9 @@
 <body>
 
   <form name="frm" action="/confirmar" method="POST" onsubmit="return ValidarDados()">
-    <div>
-      <p id="teste" style="text-align: center;">Tela de Cadastro de Funcionários
-      </p>
+    <p id="teste" style="text-align: center; background-color: #fd951f; border: 1px solid black; ;">Tela de Cadastro de
+      Funcionários
+    </p>
     </div>
     <table>
       <tr>
@@ -67,8 +67,8 @@
       </tr>
     </table>
 
-    <div text-align: center;>
-      <button name="Botao_Enviar" type="submit" value="Enviar" class="Center">Enviar</button>
+    <div text-align: center; style="border: 1px solid black; background-color: #fd951f;">
+      <button>Enviar</button>
     </div>
   </form>
 </body>
@@ -82,7 +82,7 @@
     if (idade <= 0) {
       alert('Idade inválida')
       return false
-    } else if (cpf.length < 11 || format.test(cpf)){
+    } else if (cpf.length < 11 || format.test(cpf)) {
       alert('CPF inválido')
       return false
     }
