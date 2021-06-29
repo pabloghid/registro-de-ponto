@@ -1,7 +1,5 @@
-const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
-const db = require('./models/db');
 const { Cadastro, Usuario, Controle_ponto, Saldohoras } = require("./models/cadastros");
 const session = require('express-session');
 const moment = require("moment");
