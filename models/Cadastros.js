@@ -15,16 +15,16 @@ const Cadastro = db.sequelize.define('funcionarios', {
     cargo: {
         type: db.Sequelize.STRING
     },
-    hora_inicio_manha: {
+    hora_inicio_1: {
         type: db.Sequelize.TIME
     },
-    hora_saida_manha: {
+    hora_saida_1: {
         type: db.Sequelize.TIME
     },
-    hora_inicio_tarde: {
+    hora_inicio_2: {
         type: db.Sequelize.TIME
     },
-    hora_saida_tarde: {
+    hora_saida_2: {
         type: db.Sequelize.TIME
     }
 

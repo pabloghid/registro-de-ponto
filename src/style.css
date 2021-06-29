@@ -13,15 +13,6 @@ body {
     text-rendering: optimizeLegibility;
   }
 
-/* body {
-    height: 100vh;
-    
-    display: flex;
-    flex-direction: column;
-
-    background-color: #130f0d;
-    color: #f0f0f5;
-} */
 .label{
 background-color: rgb(38, 68, 68);
 
